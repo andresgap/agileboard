@@ -1,0 +1,41 @@
+
+<%= simple_form_for @project do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@project.errors.count, "error")} prohibited this project from being saved:" %>
+      </h2>
+      <ul>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+          <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.hidden_field :owner, value:current_user.email, class: "form-control" %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.input :state, :collection => { 'ACTIVE' => 0,'CLOSED' => 1, 'PAUSED' => 2}, :multiple => true, class: "form-control" %>
+  </div>
+
+  <!--div class="form-group">
+    <%#= f.input :number_sprints, class: "form-control" %>
+  </div-->
+
+   <!--div class="form-group">
+    <%#= f.input :sprints, class: "form-control" %>
+  </div-->
+
+  <div class="form-group">
+    <%= f.input :details, :as => :ckeditor, input_html: {:ckeditor => {:toolbar => 'FULL'}}, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit %>
+  </div>
+<% end %>
