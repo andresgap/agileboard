@@ -1,2 +1,26 @@
-<h1>Projects#index</h1>
-<p>Find me in app/views/projects/index.html.erb</p>
+<h1>My Projects</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 place-content">
+      <% @projects.each do |project| %>
+      <div class="col-md-6 col-xs-12">
+        <div class="text-center">
+          <h2><%= project.name %></h2>
+          
+        </div>
+        
+        <div>
+          <%= strip_tags(raw(project.details).truncate(358)) %>
+        </div>
+        <h6><%= 'Updated :'+project.updated_at.strftime('%b %d, %Y') %></h6>
+        <div class="read-more">
+          <%= link_to "Read More", project_path(project) %>
+          <%= link_to 'Delete', project, :method => :delete%>
+        </div>
+        <br>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

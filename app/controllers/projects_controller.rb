@@ -17,26 +17,29 @@ class ProjectsController < ApplicationController
       redirect_to projects_index_path(@project)
     else
       render :new
-      flash[:alert] = "Error creating new place!"
+      flash[:alert] = "Error creating new project!"
     end
   end
   
   def edit
+    @project = Project.find(params[:id])
   end
  
   def update
+    @project = Project.find(params[:id])
     if @project.update_attributes(project_params)
       redirect_to projects_index_path(@project)
-      flash[:notice] = "Successfully updated place!"
+      flash[:notice] = "Successfully updated project!"
     else
       render :edit
-      flash[:alert] = "Error updating place!"
+      flash[:alert] = "Error updating project!"
     end
   end
 
  
   def show
-    #@comments = Comment.where(place_id: @place).order("created_at DESC")
+
+    #@comments = Comment.where(project_id: @project).order("created_at DESC")
   end
 
  
