@@ -12,22 +12,23 @@
                        My Projects
                     
                 </li>
-                  <% @projects.each do |project| %>
-                     <li>
-                      <div class="title_projects"><%= project.name %></div>
-                      <div>
-                        <%#= strip_tags(raw(project.details).truncate(358)) %>
-                      </div>
-                      <div class="project-updated"><%= 'Updated :'+project.updated_at.strftime('%b %d, %Y') %></div>
-                      <div class="read-more">
-                        <%= link_to "Read More", project_path(project) %>
-                        <%= link_to 'Delete', project, :method => :delete%>
-                      </div>
-                      <br>
-                    </li>
-                  <% end %>
-               
-               
+                  
+                    <% @projects.each do |project| %>
+                      <%= link_to  project_path(project) do %>
+                        <li>
+                          <div class="title_projects"><%= project.name %></div>
+                          <div>
+                            <%#= strip_tags(raw(project.details).truncate(358)) %>
+                          </div>
+                          <!--div class="project-updated"><%#= 'Updated :'+project.updated_at.strftime('%b %d, %Y') %></div-->
+                          <div class="read-more">
+                             
+                            <%#= link_to 'Delete', project, :method => :delete%>
+                          </div>
+                          <br>
+                        </li>
+                      <% end %>
+                    <%end%>               
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->

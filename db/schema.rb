@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110185545) do
+ActiveRecord::Schema.define(version: 20170111133043) do
 
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false
@@ -37,6 +37,21 @@ ActiveRecord::Schema.define(version: 20170110185545) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "user_id"
+  end
+
+  create_table "sprints", force: :cascade do |t|
+    t.datetime "begin_sprint"
+    t.datetime "end_sprint"
+    t.integer  "hours"
+    t.integer  "number_tasks"
+    t.integer  "num_compromised_points"
+    t.string   "state"
+    t.integer  "completed_tasks"
+    t.integer  "completed_points"
+    t.integer  "defects_found"
+    t.string   "owner_sprint"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "users", force: :cascade do |t|

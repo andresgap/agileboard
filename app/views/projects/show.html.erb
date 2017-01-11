@@ -1,8 +1,7 @@
 <div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
   <h2 class="text-center"><%= @project.name %></h2>
- <%= @project.id %>
   
-  <div><%= raw @project.details %></div>
+  <!--div><%#= raw @project.details %></div-->
   <!--h5 class="text-center"><%#= @project.created_at.strftime('%b %d, %Y') %></h5-->
   <div><%= 'Updated: '+@project.updated_at.strftime('%b %d, %Y') %></div>
   <% if user_signed_in? %>
@@ -11,5 +10,6 @@
       <%= link_to 'Back', projects_index_path %>
     </div>
   <% end %>
+  <%= link_to 'Add New Sprint', sprints_new_path, class: 'btn btn-primary' %>
   <%#= render 'comments/comment' %>
 </div>
