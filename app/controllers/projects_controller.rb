@@ -3,7 +3,9 @@ class ProjectsController < ApplicationController
    before_action :authenticate_user!
 
   def index
-    @projects = Project.all
+    @user = current_user
+    @projects =  @user.projects
+    #@projects = @projects.current_user
   end
 
   def new
@@ -35,13 +37,11 @@ class ProjectsController < ApplicationController
       flash[:alert] = "Error updating project!"
     end
   end
-
  
   def show
-
+    #@project = @user.project
     #@comments = Comment.where(project_id: @project).order("created_at DESC")
   end
-
  
   def destroy
     @project = Project.find(params[:id])

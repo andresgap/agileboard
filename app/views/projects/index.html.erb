@@ -1,26 +1,66 @@
-<h1>My Projects</h1>
+ 
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12 place-content">
-      <% @projects.each do |project| %>
-      <div class="col-md-6 col-xs-12">
-        <div class="text-center">
-          <h2><%= project.name %></h2>
-          
-        </div>
+ 
+   <div id="wrapper">
         
-        <div>
-          <%= strip_tags(raw(project.details).truncate(358)) %>
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <a href="#menu-toggle" class="glyphicon glyphicon-chevron-left hide-left-bar" id="menu-toggle" ></a>
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    
+                       My Projects
+                    
+                </li>
+                  <% @projects.each do |project| %>
+                     <li>
+                      <div class="title_projects"><%= project.name %></div>
+                      <div>
+                        <%#= strip_tags(raw(project.details).truncate(358)) %>
+                      </div>
+                      <div class="project-updated"><%= 'Updated :'+project.updated_at.strftime('%b %d, %Y') %></div>
+                      <div class="read-more">
+                        <%= link_to "Read More", project_path(project) %>
+                        <%= link_to 'Delete', project, :method => :delete%>
+                      </div>
+                      <br>
+                    </li>
+                  <% end %>
+               
+               
+            </ul>
         </div>
-        <h6><%= 'Updated :'+project.updated_at.strftime('%b %d, %Y') %></h6>
-        <div class="read-more">
-          <%= link_to "Read More", project_path(project) %>
-          <%= link_to 'Delete', project, :method => :delete%>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                      <% if user_signed_in? %>
+                        <div class="link-newProject">
+                          <%= link_to 'New Project', projects_new_path, class: 'btn btn-primary' %>
+                        </div>
+                      <% end %>
+                        
+                        
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-      </div>
-      <% end %>
+        <!-- /#page-content-wrapper -->
+
     </div>
-  </div>
-</div>
+
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        if($(this).hasClass('glyphicon-chevron-right')){
+          $(this).removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
+        }
+        else{
+          $(this).removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right');  
+        }
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>

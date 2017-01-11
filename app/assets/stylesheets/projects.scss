@@ -1,3 +1,29 @@
 // Place all the styles related to the Projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.title_projects{
+	font-size:14px;
+	font-weight:bold;
+}
+.project-updated{
+	font-size:10px;
+	font-weight:normal;
+}
+.projects-list{
+	display:block;
+	position:relative;
+	height:100%;
+	border-right:2px solid #666;
+}
+.link-newProject{
+
+}
+.hide-left-bar{
+	display: block;
+    float: right;
+    margin: 5px;
+    position: relative;
+    z-index: 9999;
+    text-decoration:none;
+    color:#fff;
+}
