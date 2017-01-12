@@ -10,13 +10,14 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    
   end
 
   def create
   @project = Project.new(project_params)
   @project.user = current_user
     if @project.save
-      redirect_to projects_index_path(@project)
+      redirect_to projects_path(@project)
     else
       render :new
       flash[:alert] = "Error creating new project!"
@@ -30,7 +31,7 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     if @project.update_attributes(project_params)
-      redirect_to projects_index_path(@project)
+      redirect_to projects_path(@project)
       flash[:notice] = "Successfully updated project!"
     else
       render :edit
@@ -39,15 +40,14 @@ class ProjectsController < ApplicationController
   end
  
   def show
-    #@project = @user.project
-    #@comments = Comment.where(project_id: @project).order("created_at DESC")
+    @sprints = Sprint.where(project_id: @project).order("created_at ASC")
   end
  
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
     flash[:notice] = "Successfully deleted project!"
-    redirect_to projects_index_path
+    redirect_to projects_path
   end
 
   private
@@ -61,3 +61,4 @@ class ProjectsController < ApplicationController
   end
 
 end
+

@@ -6,10 +6,14 @@
   <div><%= 'Updated: '+@project.updated_at.strftime('%b %d, %Y') %></div>
   <% if user_signed_in? %>
     <div class="links-show">
-      <%= link_to 'Edit', projects_edit_path(:id => @project) %> |
-      <%= link_to 'Back', projects_index_path %>
+      <%= link_to 'Edit', edit_project_path(:id => @project) %> |
+      <%= link_to 'Back', projects_path %>
     </div>
   <% end %>
-  <%= link_to 'Add New Sprint', sprints_new_path, class: 'btn btn-primary' %>
-  <%#= render 'comments/comment' %>
+  <%= link_to 'Add New Sprint', new_project_sprint_path(@project), class: 'btn btn-primary' %>
+ 
+ <div>
+   <%= render 'sprints/sprints'%>
+ </div> 
 </div>
+

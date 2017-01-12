@@ -1,0 +1,14 @@
+<%= request.GET %>
+<% @sprints.each do |sprint|%>
+  <div>
+    
+    <%= sprint.name %>
+    <%= link_to 'Edit', edit_project_sprint_path(sprint.project_id , sprint.id)%>
+    <%= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
+    
+    <%= link_to 'Delete', project_sprint_path(sprint.project_id , sprint.id), :method => :delete %>
+
+  </div>
+<%end%>
+
+ <%#= render 'sprints/form'%>

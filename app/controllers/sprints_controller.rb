@@ -1,60 +1,58 @@
 class SprintsController < ApplicationController
-   before_action :find_sprint, only: [:edit, :update, :show, :delete]
-   before_action :authenticate_user!
-
+  before_action :find_project
+  before_action :find_sprint, only: [:destroy, :edit, :update]
   def index
-    @sprints = Sprint.all
-  end
-
-  def new
-    @sprint = Sprint.new
   end
 
   def create
-  @sprint = Sprint.new(sprint_params)
-  @sprint.user = current_user
+    @sprint = @project.sprints.create(sprint_params)
+    @sprint.user_id = current_user.id
     if @sprint.save
-      redirect_to sprints_index_path(@sprint)
+      redirect_to project_path(find_project)
     else
-      render :new
-      flash[:alert] = "Error creating new project!"
+      render 'new'
     end
   end
   
   def edit
-    @sprint = Sprint.find(params[:id])
+   
+
   end
- 
+
   def update
-    @sprint = Sprint.find(params[:id])
-    if @sprint.update_attributes(sprint_params)
-      redirect_to sprints_index_path(@sprint)
-      flash[:notice] = "Successfully updated project!"
+    
+     if @sprint.update(sprint_params)
+      redirect_to project_path(find_project)
+      flash[:notice] = "Successfully updated sprint!"
     else
       render :edit
-      flash[:alert] = "Error updating project!"
+      flash[:alert] = "Error updating sprint!"
     end
   end
- 
+
+
   def show
-    #@project = @user.project
-    #@comments = Comment.where(project_id: @project).order("created_at DESC")
+    @sprint = Sprint.find(params[:id])
   end
- 
+
   def destroy
     @sprint = Sprint.find(params[:id])
     @sprint.destroy
+    redirect_to projects_path(@project)
     flash[:notice] = "Successfully deleted project!"
-    redirect_to sprints_index_path
-  end
+  end  
 
   private
 
   def sprint_params
-    params.require(:sprint).permit(:begin_sprint, :end_sprint, :hours, :number_tasks, :num_compromised_points, :state, :completed_tasks, :completed_points, :defects_found, :owner_sprint)
+    params.require(:sprint).permit(:name, :state, :begin_sprint, :end_sprint, :hours, :number_tasks, :num_compromised_points)
   end
 
+  def find_project
+    @project = Project.find(params[:project_id])    
+  end
   def find_sprint
-    @sprint = Sprint.find(params[:id])
+    @sprint = @project.sprints.find(params[:id])    
   end
 end
+

@@ -1,2 +1,26 @@
-<h1>Sprints#show</h1>
-<p>Find me in app/views/sprints/show.html.erb</p>
+
+<div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
+  <div class=""><%= @sprint.name %></div>
+  <div class=""><%= @sprint.hours %></div>
+  <div class=""><%= @sprint.number_tasks %></div>
+  <div class=""><%= @sprint.num_compromised_points %></div>
+  <div class="">
+  <%= if @sprint.state == '0'
+  		@sprint.state = 'ACTIVE'
+  	  elsif @sprint.state == '1'
+  	    @sprint.state = 'CLOSED'
+  	  else 	
+  	  	@sprint.state = 'PAUSED'
+  	  end
+  %>
+   	
+  </div>
+  <% if user_signed_in? %>
+    <div class="links-show">
+      
+    </div>
+  <% end %>
+  
+ 
+
+</div>

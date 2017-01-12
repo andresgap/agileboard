@@ -1,29 +1,8 @@
 Rails.application.routes.draw do
-  get 'sprints/index'
-
-  get 'sprints/new'
-
-  get 'sprints/create'
-
-  get 'sprints/update'
-
-  get 'sprints/show'
-
-  get 'sprints/destroy'
+ 
 
   mount Ckeditor::Engine => '/ckeditor'
-  get 'projects/index'
-
-  get 'projects/new'
-
-  get 'projects/create'
-
-  get 'projects/edit'
-
-  get 'projects/update'
-
-  get 'projects/destroy'
-
+  
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'home/index'
 
@@ -36,6 +15,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "home#index"
   
-  resources :projects 
-  resources :sprints  
+  resources :projects do
+    resources :sprints, :only => [:index,:show ,:new,:create ,:edit, :update, :destroy] 
+  end
 end
