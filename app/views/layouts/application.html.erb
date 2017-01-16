@@ -34,7 +34,7 @@
                     <% if current_user.nil? %>
                     <li class=""><%= link_to new_user_session_path, class: 'login-button' do %>Sign in<% end %></li>
                     <% else %>
-                      <li class=""><%= link_to home_index_path, class: 'login-button' do %>Home<% end %></li>
+                      <li class=""><%= link_to projects_path, class: 'login-button' do %>Projects<% end %></li>
                     <% end %>
 
                     <% if user_signed_in? %>

@@ -1,14 +1,13 @@
-<%= request.GET %>
-<% @sprints.each do |sprint|%>
-  <div>
-    
-    <%= sprint.name %>
-    <%= link_to 'Edit', edit_project_sprint_path(sprint.project_id , sprint.id)%>
-    <%= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
-    
-    <%= link_to 'Delete', project_sprint_path(sprint.project_id , sprint.id), :method => :delete %>
-
-  </div>
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <%= link_to 'Add New Sprint', '#', class: 'btn btn-primary', id: 'new_sprint' %>
+  <% @sprints.each do |sprint|%>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <%= sprint.name %>
+      <%= link_to 'Edit', edit_project_sprint_path(sprint.project_id , sprint.id)%>
+      <%= link_to 'Close', edit_project_sprint_path(sprint.project_id , sprint.id,:close_sprint=>'close_sprint')%>
+      <%= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
+      <%= link_to 'Delete', project_sprint_path(sprint.project_id , sprint.id), :method => :delete %>
+    </div>
 <%end%>
 
- <%#= render 'sprints/form'%>
+ 

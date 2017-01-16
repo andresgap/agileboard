@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  get 'home/index'
+  get 'projects/index'
 
   devise_for :users, controllers: {
       sessions: 'users/sessions',
@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   root to: "home#index"
   
   resources :projects do
-    resources :sprints, :only => [:index,:show ,:new,:create ,:edit, :update, :destroy] 
+    resources :sprints, :only => [:index,:show ,:new,:create ,:edit, :update, :destroy] do
+      resources :tasks
+    end
   end
 end

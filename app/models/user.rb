@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :projects, :dependent => :destroy
   has_many :sprints, :dependent => :destroy
+  has_many :tasks, :dependent => :destroy
   accepts_nested_attributes_for :projects, :reject_if => lambda { |a| a[:content].blank}, allow_destroy: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

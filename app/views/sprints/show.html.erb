@@ -1,26 +1,136 @@
+<div id="tabs-sprints" class="container-fluid"> 
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a  href="#1" data-toggle="tab">Sprint Overview</a>
+      </li>
+      <li><a href="#2" data-toggle="tab">Metrics</a>
+      </li>
+      <li><a href="#3" data-toggle="tab">Sprint Tasks</a>
+    </li>
+  </ul>
 
-<div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
-  <div class=""><%= @sprint.name %></div>
-  <div class=""><%= @sprint.hours %></div>
-  <div class=""><%= @sprint.number_tasks %></div>
-  <div class=""><%= @sprint.num_compromised_points %></div>
-  <div class="">
-  <%= if @sprint.state == '0'
-  		@sprint.state = 'ACTIVE'
-  	  elsif @sprint.state == '1'
-  	    @sprint.state = 'CLOSED'
-  	  else 	
-  	  	@sprint.state = 'PAUSED'
-  	  end
-  %>
-   	
-  </div>
-  <% if user_signed_in? %>
-    <div class="links-show">
-      
+  <div class="tab-content ">
+    <div class="tab-pane active" id="1">
+      <div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
+        <div class=""><%= @sprint.name %></div>
+        <div class=""><%= @sprint.hours %></div>
+        <div class=""><%= @sprint.number_tasks %></div>
+        <div class=""><%= @sprint.num_compromised_points %></div>
+        <div class="">
+          <%= 
+            if @sprint.state == '0'
+              @sprint.state = 'ACTIVE'
+            elsif @sprint.state == '1'
+              @sprint.state = 'CLOSED'
+            else  
+              @sprint.state = 'PAUSED'
+            end
+          %>
+              
+        </div>
+        <%= link_to 'Add New Task', '#', class: 'btn btn-primary', id: 'new_task' %>
+        <div id="form-sprints" class="center-div col-md-6 col-sm-6 col-xs-12">
+          <%= render 'tasks/form'%>
+          <%#= link_to 'Add New Task', new_project_sprint_task_path(:id=>@sprint.id,:id=>@task.id), class: 'btn btn-primary' %>
+        </div> 
+      </div>
     </div>
-  <% end %>
-  
- 
-
+    <div class="tab-pane" id="2">
+      <% 
+        @nameSprints ||= []
+        @sprints.each do |sprint| 
+          @nameSprints.push(sprint.name) 
+        end
+      %>
+        
+      <div id="sprintChart" class="col-md-12 cols-sm-12 col-xs-12 "></div>
+    </div>
+    <div class="tab-pane" id="3">
+      <h3>Board </h3>
+      <%= render :template => "tasks/index" %>
+    </div>
+  </div>
 </div>
+
+<script type="text/javascript">
+  var sprint = "<%= @sprint.name %>"
+  $(document).ready(function(){
+    $( '#new_task' ).click(function(e) {
+      e.preventDefault();
+      $('#form-sprints').toggle('slow',function(){
+      $('#sprint_name').focus();
+      });  
+    });
+    var divWidth = $('.center-div').width();
+    var windowWidth = $(window).width();
+    $('#form-sprints').css({'left': (windowWidth-divWidth)/2 })
+  })
+    
+  $(function () {
+    
+      Highcharts.chart('sprintChart', {
+          chart: {
+              type: 'areaspline'
+          },
+          title: {
+              text: sprint
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'left',
+              verticalAlign: 'top',
+              x: 150,
+              y: 100,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+          },
+          xAxis: {
+              categories: [
+                  'Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday'
+              ],
+              plotBands: [{ // visualize the weekend
+                  from: 4.5,
+                  to: 6.5,
+                  color: 'rgba(68, 170, 213, .2)'
+              }]
+          },
+          yAxis: {
+              title: {
+                  text: 'Fruit units'
+              }
+          },
+          tooltip: {
+              shared: true,
+              valueSuffix: ' units'
+          },
+          credits: {
+              enabled: false
+          },
+          plotOptions: {
+              areaspline: {
+                  fillOpacity: 0.5
+              }
+          },
+          series: [
+          {
+              name: sprint,
+              data: [3, 4, 3, 5, 4, 10, 12]
+          }
+          ]
+      });
+  });
+</script>
+
+
+
+
+
+
+

@@ -17,3 +17,8 @@
 //= require toastr
 //= require bootstrap-sprockets
 //= require ckeditor/init
+//= require highcharts
+//= require highcharts/highcharts-more
+//= require highcharts/modules/exporting
+
+

@@ -1,3 +1,35 @@
 // Place all the styles related to the Sprints controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#form-sprints{
+	background: #2c3e50 none repeat scroll 0 0;
+    display: none;
+    padding: 30px;
+    position: absolute;
+    top: 10%;
+    label{
+    	color:#fff;
+    }
+}
+#sprintChart{
+	display:block;
+	position: relative;
+	top: 10%;
+
+}
+
+
+#tabs-sprints h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+
+
+
+
+
+
+
+

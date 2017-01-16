@@ -1,0 +1,12 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+
+<% @tasks.each do |task|%>
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <%= task.name %>
+    <%#= link_to 'Edit', edit_project_sprint_task_path(task.sprint_id, task.id)%>
+    <%#= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
+    <%#= link_to 'Delete', project_sprint_path(sprint.project_id , sprint.id), :method => :delete %>
+  </div>
+<%end%>
+
+ 

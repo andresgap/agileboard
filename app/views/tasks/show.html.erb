@@ -1,0 +1,24 @@
+
+<div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
+  <div class=""><%= @task.name %></div>
+  <div class=""><%= @task.type_task %></div>
+  <div class="">
+  <%= if @task.state_task == '0'
+  		@task.state_task = 'DEV'
+  	  elsif @task.state_task == '1'
+  	    @task.state_task = 'QA'
+  	  else 	
+  	  	@task.state_task = 'FINISHED'
+  	  end
+  %>
+   	
+  </div>
+  <% if user_signed_in? %>
+    <div class="links-show">
+      
+    </div>
+  <% end %>
+  
+ 
+
+</div>

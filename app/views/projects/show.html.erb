@@ -10,10 +10,22 @@
       <%= link_to 'Back', projects_path %>
     </div>
   <% end %>
-  <%= link_to 'Add New Sprint', new_project_sprint_path(@project), class: 'btn btn-primary' %>
- 
- <div>
-   <%= render 'sprints/sprints'%>
- </div> 
+  <%#= link_to 'Add New Sprint', new_project_sprint_path(@project), class: 'btn btn-primary', id: 'new_sprint' %>
+  <div id="sprint-list"> <%= render 'sprints/sprints'%></div>
+  <div id="form-sprints" class="center-div col-md-6 col-sm-6 col-xs-12">
+  <%= render 'sprints/form'%>
+  </div> 
 </div>
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    $( '#new_sprint' ).click(function(e) {
+      e.preventDefault();
+      $('#form-sprints').toggle('slow',function(){
+      $('#sprint_name').focus();
+      });  
+    });
+    var divWidth = $('.center-div').width();
+    var windowWidth = $(window).width();
+    $('#form-sprints').css({'left': (windowWidth-divWidth)/2 })
+  });
+</script>
