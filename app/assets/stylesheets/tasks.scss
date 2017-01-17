@@ -2,16 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#visualizer-panel .draggable:hover {
-    cursor: move;
-}
 
-/* Drag & Drop */
-#visualizer-panel .draggable {
-    -webkit-transform: translate(0px, 0px);
-    transform: translate(0px, 0px);
+.li-task {
+  list-style: none;
+  padding: 5px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  margin: 0 0 5px;
 }
-#visualizer-panel .drop-active { border-color: red; }
-#visualizer-panel .drag-drop.can-drop { background-color: #4e4; }
-#visualizer-panel .drop-target {  background-color: #29e;  }
-.list-group-item{z-index: 999}
+.container-stages{
+  border: 1px solid #2c3e50;
+  border-radius: 0px;
+  padding: 10px;
+  min-height: 400px;
+  display: inline-block;
+  vertical-align: top;
+}
+.li-task:hover {
+  /*padding-bottom: 55px;
+  /*background: url('http://www.cufonfonts.com/makeImage.php?width=650&id=1026&size=35&d=y&text=Drop%20Here') center bottom no-repeat #ccc;*/
+  background: #666;
+  color:#fff;
+}
+/*#todo:hover li {
+  background: #fff;
+}*/
+
+#board div h3 {display: inline-block; margin: 1%; text-align: center;}

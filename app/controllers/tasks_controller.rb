@@ -31,7 +31,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to project_sprint_task_path(@sprint)
+      redirect_to project_sprint_task_path(@task)
       flash[:notice] = "Successfully updated task!"
     else
       render :edit

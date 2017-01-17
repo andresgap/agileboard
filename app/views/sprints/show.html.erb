@@ -44,6 +44,11 @@
           days.strftime("%e").to_i
         end
       %>
+      <%=
+        @tasksnumber = [*1..@sprint.number_tasks.to_i]
+      %>
+      
+
       <div id="sprintChart" class="col-md-12 cols-sm-12 col-xs-12 "></div>
     </div>
     <div class="tab-pane" id="3">
@@ -56,6 +61,7 @@
 <script type="text/javascript">
   var sprint = "<%= @sprint.name %>"
   var arrayDays = <%= @arrayOfdays %>
+  var arrayTaskNum = <%= @tasksnumber %>
   
   $(document).ready(function(){
     $( '#new_task' ).click(function(e) {
@@ -98,8 +104,10 @@
           },
           yAxis: {
               title: {
-                  text: 'Tasks'
-              }
+                  text: 'Tasks',
+                  
+              },
+              categories: arrayTaskNum
           },
           tooltip: {
               shared: true,
@@ -116,7 +124,7 @@
           series: [
           {
               name: sprint,
-              data: [3, 4, 3, 5, 4, 10, 12, 5, 12, 36]
+              data: [3, 4, 3, 5, 4, 7, 4, 5, 8, 5]
           }
           ]
       });

@@ -3,115 +3,78 @@
 <% @tasks.each do |task|%>
   <div class="col-md-12 col-sm-12 col-xs-12">
     <%= task.name %>
+    <%= task.id %>
     <%#= link_to 'Edit', edit_project_sprint_task_path(task.sprint_id, task.id)%>
     <%#= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
     <%#= link_to 'Delete', project_sprint_task_path(:id=> task.id), :method => :delete %>
     <%#= link_to 'Edit', [:edit, @sprint.tasks, @task] %>
     
   </div>
-  <%#= link_to 'Edit', edit_project_sprint_task_path(:id=>task.id, :sprint_id=>task.sprint_id)%>
+   <%#= link_to 'edit', '#', class: 'btn btn-primary', id: 'edit_task' %>
 <%end%>
-<div id="visualizer-panel" class="col-md-12">
-  <div class="col-md-3  panel" id="board-created-container">
-    <div class="panel-heading">
-      <h4 class="panel-title">CREATED</h4>
-    </div>
-    <div class="panel-body">
-      <ul class="list-group">
+</div>
+
+<h1>Gap Planning board</h1>
+<div class="row">
+<div id="board" class="col-md-12">
+  <div class="row">
+  
+     <div class="col-md-3">ToDo</div><div class="col-md-3">In Progress</div><div class="col-md-3">QA</div> <div class="col-md-3">Done</div>
+  
+    <ul id="todo" class="container-stages col-md-3">
+       
         <% @tasks.each do |task|%>
-          <li class="list-group-item draggable">
-          	<%= task.name %>
-         	<%= task.state_task %>
-          	<%= task.type_task %>
-          </li>
+        <li id='<%= task.name %>'  class="li-task" draggable="true">Task 1
+          <%= task.name %>
+          <%= task.state_task %>
+          <%= task.type_task %>
+        </li>
         <%end%>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-3  panel" id="board-created-container">
-    <div class="panel-heading">
-      <h4 class="panel-title">DEVELOPMENT</h4>
-    </div>
-      <div class="panel-body">
-        <div class="dropzone"></div>
-      </div>
-  </div>
-  <div class="col-md-3  panel" id="board-created-container">
-    <div class="panel-heading">
-      <h4 class="panel-title">QA</h4>
-    </div>
-    <div class="panel-body">
-      <div class="dropzone"></div>
-    </div>
-  </div>
-  <div class="col-md-3  panel" id="board-created-container">
-    <div class="panel-heading">
-      <h4 class="panel-title">FINISHED</h4>
-    </div>
-    <div class="panel-body">
-      <div class="dropzone"></div>
-    </div>
+    </ul>
+     <ul id="inprogress" class="container-stages col-md-3">
+     
+    </ul>
+    <ul id="qa" class="container-stages col-md-3">
+    
+    </ul>
+    <ul id="done" class="container-stages col-md-3">
+    
+    </ul>
   </div>
 </div>
- 
-
+</div>
 <script type="text/javascript">
-	    // Initialize Interact.js Drag & Drop
-    interact('.draggable').draggable({
-        inertia: true,
-        restrict: {
-          restriction: "#visualizer-panel",
-          endOnly: true,
-          elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-        },
-        onmove: function (event) {
-          var target = event.target,
-              // keep the dragged position in the data-x/data-y attributes
-              x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-              y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-    
-          // translate the element
-          target.style.webkitTransform =
-          target.style.transform =
-            'translate(' + x + 'px, ' + y + 'px)';
-    
-          // update the posiion attributes
-          target.setAttribute('data-x', x);
-          target.setAttribute('data-y', y);
-        },
-        onend: function(event) {
-            console.log(event);
-        }
-    });
+  
+$(document).ready(function(){
+  $('li').bind('dragstart', function(event) {
+    event.originalEvent.dataTransfer.setData("text/plain",  event.target.getAttribute('id'));
+  });
 
-    interact('.panel').dropzone({
-        accept: '.draggable',
-        overlap: 0.50,
+  $('ul').bind('dragover', function(event) {
+    event.preventDefault();
+  });
 
-        // add / remove dropzone feedback
-        ondropactivate: function (event) {
-            event.target.classList.add('drop-active');
-        },
-        ondropdeactivate: function (event) {
-            event.target.classList.remove('drop-active');
-        },
+  $('ul').bind('dragenter', function(event) {
+    $(this).addClass("over");
+  });
 
-        // add / remove dropzone feedback
-        ondragenter: function (event) {
-            var draggableElement = event.relatedTarget,
-                dropzoneElement = event.target;
-            dropzoneElement.classList.add('drop-target');
-            draggableElement.classList.add('can-drop');
-        },
-        ondragleave: function (event) {
-            event.target.classList.remove('drop-target');
-            event.relatedTarget.classList.remove('can-drop');
-        },
+  $('ul').bind('dragleave drop', function(event) {
+    $(this).removeClass("over");
+  });
 
-        // drop successful
-        ondrop: function (event) {
-            console.log(event);
-        }
-    });
+  $('li').bind('drop', function(event) {
+    return false;
+  });
+
+  $('ul').bind('drop', function(event) {
+    var listitem = event.originalEvent.dataTransfer.getData("text/plain");
+    event.target.appendChild(document.getElementById(listitem));
+    event.preventDefault();
+  });
+});
+
 </script>
+       
+   
+ 
 
