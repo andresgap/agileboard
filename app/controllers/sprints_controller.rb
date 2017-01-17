@@ -38,8 +38,7 @@ class SprintsController < ApplicationController
   def show
     @sprints = Sprint.all
     @sprint = Sprint.find(params[:id])
-    @tasks = @sprint.tasks
-   
+    @tasks = Task.all      
   end
 
   def destroy

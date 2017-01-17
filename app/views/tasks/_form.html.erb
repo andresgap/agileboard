@@ -1,17 +1,25 @@
-<%= simple_form_for  [@project, @sprint ,@sprint.tasks.new] do |f| %>
+<div class="col-md-12">
+  <%= simple_form_for  [@project, @sprint ,@sprint.tasks.new] do |f| %>
+    <div class="glyphicon glyphicon-remove-circle close-forms"></div>  
+    <div class="form-group">
+      <%= f.input :name, class: "form-control" %>
+    </div>
+     <div class="form-group">
+      <%= f.input :state_task, :collection => { 'NEW'=> 0,'DEV'=> 1,'QA'=> 2, 'END'=> 3}, :multiple => true, class: "form-control" %>
+    </div>
     
-  <div class="form-group">
-    <%= f.input :name, class: "form-control" %>
-  </div>
-   <div class="form-group">
-    <%= f.input :state_task, :collection => { 'DEV' => 0,'QA' => 1, 'FINISHED' => 2}, :multiple => true, class: "form-control" %>
-  </div>
-  
-  <div class="form-group">
-    <%= f.input :type_task, class: "form-control" %>
-  </div>
-   
-  <div class="form-group">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+    <div class="form-group">
+      <%= f.input :type_task, class: "form-control" %>
+    </div>
+     
+    <div class="form-group">
+      <%= f.button :submit %>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $('.close-forms').click(function(){
+    
+    $('#form-sprints').css({'display':'none'});
+  })
+</script>

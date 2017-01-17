@@ -13,11 +13,11 @@
   </div>
   
   <div class="form-group">
-    <%= f.input :begin_sprint, class: "form-control" %>
+    <%= f.input :begin_sprint,:order => [:day, :month, :year], :discard_hour => true, :discard_minute => true, class: "form-control" %>
   </div>
 
    <div class="form-group">
-    <%= f.input :end_sprint, class: "form-control" %>
+    <%= f.input :end_sprint,:order => [:day, :month, :year], :discard_hour => true, :discard_minute => true, class: "form-control" %>
   </div-->
 
   <div class="form-group">

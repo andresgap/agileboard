@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-   before_action :find_project, only: [:edit, :update, :show, :delete]
-   before_action :authenticate_user!
+  before_action :find_project, only: [:edit, :update, :show, :delete]
+  before_action :authenticate_user!
 
   def index
     @user = current_user
@@ -9,7 +9,6 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
-    
   end
 
   def create
@@ -58,6 +57,5 @@ class ProjectsController < ApplicationController
   def find_project
     @project = Project.find(params[:id])
   end
-
 end
 

@@ -7,7 +7,7 @@
     <%= f.input :name, value:'Sprint', class: "form-control" %>
   </div>
    <div class="form-group">
-    <%= f.input :state_task, :collection => { 'DEV' => 0,'QA' => 1, 'FINISHED' => 2}, :multiple => true, class: "form-control" %>
+    <%= f.input :state_task, :collection => { 'NEW'=> 0,'DEV'=> 1,'QA'=> 2, 'END'=> 3}, :multiple => true, class: "form-control" %>
   </div>
   
   <div class="form-group">

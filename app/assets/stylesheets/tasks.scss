@@ -1,3 +1,17 @@
 // Place all the styles related to the Tasks controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#visualizer-panel .draggable:hover {
+    cursor: move;
+}
+
+/* Drag & Drop */
+#visualizer-panel .draggable {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+}
+#visualizer-panel .drop-active { border-color: red; }
+#visualizer-panel .drag-drop.can-drop { background-color: #4e4; }
+#visualizer-panel .drop-target {  background-color: #29e;  }
+.list-group-item{z-index: 999}

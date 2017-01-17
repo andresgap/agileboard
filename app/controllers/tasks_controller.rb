@@ -7,6 +7,7 @@ class TasksController < ApplicationController
     @sprint = Sprint.find(params[:sprint_id])
     @tasks =  @sprint.tasks
   end
+
   def new
     @task = Task.new
     @sprint = Sprint.find(params[:sprint_id])
@@ -29,8 +30,6 @@ class TasksController < ApplicationController
   end
 
   def update
-    @sprint = Sprint.find(params[:sprint_id])
-    @task = @sprint.tasks.create(task_params)
     if @task.update(task_params)
       redirect_to project_sprint_task_path(@sprint)
       flash[:notice] = "Successfully updated task!"

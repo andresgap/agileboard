@@ -13,36 +13,37 @@
     <div class="tab-pane active" id="1">
       <div class="col-md-12 col-sm-12 colcol-xs-12 blog-content">
         <div class=""><%= @sprint.name %></div>
-        <div class=""><%= @sprint.hours %></div>
-        <div class=""><%= @sprint.number_tasks %></div>
-        <div class=""><%= @sprint.num_compromised_points %></div>
+        <div class=""><%= "Hours: "+ @sprint.hours.to_s %></div>
+        <div class=""><%= "Number of Tasks: "+@sprint.number_tasks.to_s %></div>
+        <div class=""><%= "Number of Compromised Tasks: "+@sprint.num_compromised_points.to_s %></div>
+        <div> <%= "Sprint start: "+@sprint.begin_sprint.strftime("%B %e %Y") %></div>
+        <div><%= "Sprint End: "+@sprint.end_sprint.strftime("%B %e %Y") %></div>
+        <% @sprint_days = (@sprint.end_sprint - @sprint.begin_sprint).to_i / (24*60*60) %>
         <div class="">
           <%= 
             if @sprint.state == '0'
-              @sprint.state = 'ACTIVE'
+              @sprint.state = 'Sprint state: ACTIVE'
             elsif @sprint.state == '1'
-              @sprint.state = 'CLOSED'
+              @sprint.state = 'Sprint state: CLOSED'
             else  
-              @sprint.state = 'PAUSED'
+              @sprint.state = 'Sprint state: PAUSED'
             end
           %>
-              
         </div>
         <%= link_to 'Add New Task', '#', class: 'btn btn-primary', id: 'new_task' %>
-        <div id="form-sprints" class="center-div col-md-6 col-sm-6 col-xs-12">
+        <div id="form-sprints" class="center-div col-md-3 col-sm-3 col-xs-12">
           <%= render 'tasks/form'%>
-          <%#= link_to 'Add New Task', new_project_sprint_task_path(:id=>@sprint.id,:id=>@task.id), class: 'btn btn-primary' %>
         </div> 
       </div>
     </div>
     <div class="tab-pane" id="2">
-      <% 
-        @nameSprints ||= []
-        @sprints.each do |sprint| 
-          @nameSprints.push(sprint.name) 
+      <%=
+        start = @sprint.begin_sprint.to_datetime
+        finish = @sprint.end_sprint.to_datetime
+        @arrayOfdays = (start..finish).map do |days|
+          days.strftime("%e").to_i
         end
       %>
-        
       <div id="sprintChart" class="col-md-12 cols-sm-12 col-xs-12 "></div>
     </div>
     <div class="tab-pane" id="3">
@@ -54,6 +55,8 @@
 
 <script type="text/javascript">
   var sprint = "<%= @sprint.name %>"
+  var arrayDays = <%= @arrayOfdays %>
+  
   $(document).ready(function(){
     $( '#new_task' ).click(function(e) {
       e.preventDefault();
@@ -86,42 +89,34 @@
               backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
           },
           xAxis: {
-              categories: [
-                  'Monday',
-                  'Tuesday',
-                  'Wednesday',
-                  'Thursday',
-                  'Friday',
-                  'Saturday',
-                  'Sunday'
-              ],
-              plotBands: [{ // visualize the weekend
+              categories: arrayDays,
+              /*plotBands: [{ // visualize the weekend
                   from: 4.5,
                   to: 6.5,
                   color: 'rgba(68, 170, 213, .2)'
-              }]
+              }]*/
           },
           yAxis: {
               title: {
-                  text: 'Fruit units'
+                  text: 'Tasks'
               }
           },
           tooltip: {
               shared: true,
-              valueSuffix: ' units'
+              valueSuffix: ' Tasks'
           },
           credits: {
               enabled: false
           },
-          plotOptions: {
+          /*plotOptions: {
               areaspline: {
                   fillOpacity: 0.5
               }
-          },
+          },*/
           series: [
           {
               name: sprint,
-              data: [3, 4, 3, 5, 4, 10, 12]
+              data: [3, 4, 3, 5, 4, 10, 12, 5, 12, 36]
           }
           ]
       });

@@ -47,6 +47,9 @@ gem 'paperclip'
 gem 'carrierwave'
 gem 'mini_magick'
 gem "highcharts-rails"
+gem 'gridstack-js-rails'
+gem 'jquery-ui-rails'
+gem 'interact-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

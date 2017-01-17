@@ -166,6 +166,9 @@ header .intro-text .skills {
   color: white;
   border-color: #18BC9C;
 }
+label{
+  width: 100%!important;
+}
 @media (min-width: 768px) {
   .navbar-custom {
     padding: 25px 0;
@@ -429,10 +432,13 @@ fieldset[disabled] .btn-success.active {
   font-size: 20px;
   line-height: 45px;
 }
+.btn:hover,
 .btn:focus,
 .btn:active,
 .btn.active {
   outline: none;
+  background: #999;
+  color: #fff
 }
 .scroll-top {
   position: fixed;
@@ -510,4 +516,11 @@ fieldset[disabled] .btn-success.active {
 .portfolio-modal .modal-backdrop {
   opacity: 0;
   display: none;
+}
+.close-forms{
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  right: 0; 
+  cursor: pointer;
 }
