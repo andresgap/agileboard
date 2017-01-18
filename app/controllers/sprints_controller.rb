@@ -36,6 +36,7 @@ class SprintsController < ApplicationController
   end
 
   def show
+   
     @sprints = Sprint.all
     @sprint = Sprint.find(params[:id])
     @tasks = Task.all      

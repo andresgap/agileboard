@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
-  before_action :find_project
+  #before_action :find_project
   before_action :find_task ,only: [:edit, :update, :show, :delete]
   before_action :find_sprint, only: [:edit, :update, :destroy]
   
   def index
     @sprint = Sprint.find(params[:sprint_id])
+    #@task = Task.find(params[:id])
     @tasks =  @sprint.tasks
   end
 
@@ -15,6 +16,7 @@ class TasksController < ApplicationController
   end
 
   def create
+    @project = Project.find(params[:project_id])
     @sprint = Sprint.find(params[:sprint_id])
     @task = @sprint.tasks.create(task_params)
     @task.user_id = current_user.id
@@ -48,7 +50,16 @@ class TasksController < ApplicationController
     @task.destroy
     redirect_to project_sprint_task_path(@sprint)
     flash[:notice] = "Successfully deleted task!"
-  end  
+  end 
+
+  def change_stage
+    task_state = params[:state_task]
+    puts task_state.inspect
+    @sprint = Sprint.find(params[:sprint_id])
+    @task = @sprint.tasks.find(params[:id])
+    @task.update_attributes(:state_task => task_state)
+    
+  end 
 
   private
 

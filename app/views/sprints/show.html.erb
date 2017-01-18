@@ -1,3 +1,5 @@
+<h2 class="text-center"><%= @sprint.name %></h2>
+<%= link_to 'Back', project_path(@sprint.project_id) %>
 <div id="tabs-sprints" class="container-fluid"> 
   <ul class="nav nav-tabs">
     <li class="active">
@@ -44,15 +46,12 @@
           days.strftime("%e").to_i
         end
       %>
-      <%=
-        @tasksnumber = [*1..@sprint.number_tasks.to_i]
-      %>
+      <%= @tasksnumber = [*1..@sprint.number_tasks.to_i] %>
       
 
       <div id="sprintChart" class="col-md-12 cols-sm-12 col-xs-12 "></div>
     </div>
     <div class="tab-pane" id="3">
-      <h3>Board </h3>
       <%= render :template => "tasks/index" %>
     </div>
   </div>

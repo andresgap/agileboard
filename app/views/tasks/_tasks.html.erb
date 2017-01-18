@@ -1,44 +1,64 @@
+<h1><%=@sprint.name%> | Planning board</h1>
 <div class="col-md-6 col-sm-6 col-xs-12">
-
-<% @tasks.each do |task|%>
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <%= task.name %>
-    <%= task.id %>
-    <%#= link_to 'Edit', edit_project_sprint_task_path(task.sprint_id, task.id)%>
-    <%#= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
-    <%#= link_to 'Delete', project_sprint_task_path(:id=> task.id), :method => :delete %>
-    <%#= link_to 'Edit', [:edit, @sprint.tasks, @task] %>
-    
-  </div>
-   <%#= link_to 'edit', '#', class: 'btn btn-primary', id: 'edit_task' %>
-<%end%>
+  <% @sprint.tasks.each do |task|%>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <%= task.name %>
+      <%= task.id %>
+      <%#= link_to 'Edit', edit_project_sprint_task_path(task.sprint_id, task.id)%>
+      <%#= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
+      <%#= link_to 'Delete', project_sprint_task_path(:id=> task.id), :method => :delete %>
+      <%#= link_to 'Edit', [:edit, @sprint.tasks, @task] %>
+    </div>
+  <%end%>
 </div>
 
-<h1>Gap Planning board</h1>
 <div class="row">
+
 <div id="board" class="col-md-12">
+<h3>Board </h3>
   <div class="row">
   
      <div class="col-md-3">ToDo</div><div class="col-md-3">In Progress</div><div class="col-md-3">QA</div> <div class="col-md-3">Done</div>
   
-    <ul id="todo" class="container-stages col-md-3">
-       
-        <% @tasks.each do |task|%>
-        <li id='<%= task.name %>'  class="li-task" draggable="true">Task 1
-          <%= task.name %>
-          <%= task.state_task %>
-          <%= task.type_task %>
-        </li>
+    <ul id="0" class="container-stages col-md-3">
+      <% @sprint.tasks.each do |task|%>
+        <% if task.state_task == '0'%>
+          <li id='<%= task.id %>'  class="li-task" draggable="true" data-remote="true">
+            <%= task.name %>
+            <%= task.type_task %>
+          </li>
         <%end%>
+      <%end%>
     </ul>
-     <ul id="inprogress" class="container-stages col-md-3">
-     
+    <ul id="1" class="container-stages col-md-3">
+      <% @sprint.tasks.each do |task|%>
+        <% if task.state_task == '1'%>
+          <li id='<%= task.id %>'  class="li-task" draggable="true" data-remote="true">
+            <%= task.name %>
+            <%= task.type_task %>
+          </li>
+        <%end%>
+      <%end%> 
     </ul>
-    <ul id="qa" class="container-stages col-md-3">
-    
+    <ul id="2" class="container-stages col-md-3">
+      <% @sprint.tasks.each do |task|%>
+        <% if task.state_task == '2'%>
+          <li id='<%= task.id %>'  class="li-task" draggable="true" data-remote="true">
+            <%= task.name %>
+            <%= task.type_task %>
+          </li>
+        <%end%>
+      <%end%>
     </ul>
-    <ul id="done" class="container-stages col-md-3">
-    
+    <ul id="3" class="container-stages col-md-3">
+      <% @sprint.tasks.each do |task|%>
+        <% if task.state_task == '3'%>
+          <li id='<%= task.id %>'  class="li-task" draggable="true" data-remote="true">
+            <%= task.name %>
+            <%= task.type_task %>
+          </li>
+        <%end%>
+      <%end%>
     </ul>
   </div>
 </div>
@@ -46,8 +66,12 @@
 <script type="text/javascript">
   
 $(document).ready(function(){
+  var stage_id;
+  var task_id;
+
   $('li').bind('dragstart', function(event) {
     event.originalEvent.dataTransfer.setData("text/plain",  event.target.getAttribute('id'));
+    task_id = $(event.target).attr('id');
   });
 
   $('ul').bind('dragover', function(event) {
@@ -59,6 +83,8 @@ $(document).ready(function(){
   });
 
   $('ul').bind('dragleave drop', function(event) {
+    stage_id = $(event.target).attr('id');
+
     $(this).removeClass("over");
   });
 
@@ -69,9 +95,27 @@ $(document).ready(function(){
   $('ul').bind('drop', function(event) {
     var listitem = event.originalEvent.dataTransfer.getData("text/plain");
     event.target.appendChild(document.getElementById(listitem));
+    var container_stage = $(this).attr('id');
+    $(this).children().attr('container-stage',container_stage);
+    changeStage()
     event.preventDefault();
   });
+
+  function changeStage(){
+    data_send = { id: task_id,state_task:stage_id }
+    var url = "/projects/5/sprints/43/tasks#change_stage"
+    $.ajax({
+      method: 'put',
+      url: url,
+      dataType: 'html',
+      data: data_send,
+        success: function(data) {
+         //console.log(data)
+      }
+    });
+  }
 });
+
 
 </script>
        

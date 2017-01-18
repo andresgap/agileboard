@@ -20,4 +20,5 @@ Rails.application.routes.draw do
       resources :tasks,:only => [:index,:show ,:new,:create ,:edit, :update, :destroy]
     end
   end
+  put "/projects/:project_id/sprints/:sprint_id/tasks" => "tasks#change_stage"
 end
