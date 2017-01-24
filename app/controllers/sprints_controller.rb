@@ -6,9 +6,11 @@ class SprintsController < ApplicationController
   end
 
   def create
+    @project = Project.find(params[:project_id])
     @sprint = @project.sprints.create(sprint_params)
     @sprint.user_id = current_user.id
     if @sprint.save
+      @sprints = Sprint.all
       respond_to do |format|
         format.html{redirect_to project_path(@project)}
         format.js#render sprints/create.js.erb
@@ -38,7 +40,8 @@ class SprintsController < ApplicationController
   def show
    
     @sprints = Sprint.all
-    @sprint = Sprint.find(params[:id])
+    @project = Project.find(params[:id])
+    @sprint = @project.sprints.find(params[:id])
     @tasks = Task.all      
   end
 

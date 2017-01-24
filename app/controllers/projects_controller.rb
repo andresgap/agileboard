@@ -38,7 +38,8 @@ class ProjectsController < ApplicationController
   end
  
   def show
-    @sprints = Sprint.where(project_id: @project).order("created_at ASC")
+    @project = Project.find(params[:id])
+    @sprints = @project.sprints.where(project_id: @project).order("created_at ASC")
   end
  
   def destroy

@@ -17,7 +17,7 @@ class TasksController < ApplicationController
 
   def create
     @project = Project.find(params[:project_id])
-    @sprint = Sprint.find(params[:sprint_id])
+    @sprint = @project.sprints.find(params[:sprint_id])
     @task = @sprint.tasks.create(task_params)
     @task.user_id = current_user.id
     @task.project_id = @project.id
@@ -29,6 +29,8 @@ class TasksController < ApplicationController
   end
   
   def edit
+    @project = Project.find(params[:project_id])
+    @sprint = @project.sprints.find(params[:sprint_id])
   end
 
   def update
@@ -54,17 +56,22 @@ class TasksController < ApplicationController
 
   def change_stage
     task_state = params[:state_task]
+    container_stage = params[:container_stage]
+
     puts task_state.inspect
     @sprint = Sprint.find(params[:sprint_id])
     @task = @sprint.tasks.find(params[:id])
-    @task.update_attributes(:state_task => task_state)
-    
+    if container_stage == '3'
+      @task.update_attributes(:state_task => task_state, :done_time => Time.now)
+    else
+      @task.update_attributes(:state_task => task_state, :done_time => 0)
+    end
   end 
 
   private
 
   def task_params
-    params.require(:task).permit(:name, :type_task, :user_id, :project_id,:sprint_id, :dev_start_time, :dev_end_time, :state_task)
+    params.require(:task).permit(:name, :type_task, :user_id, :project_id,:sprint_id, :dev_start_time, :dev_end_time, :state_task, :to_do_start_time, :to_do_end_time, :done_time)
   end
 
   def find_project

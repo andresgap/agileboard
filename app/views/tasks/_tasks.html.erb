@@ -1,15 +1,88 @@
 <h1><%=@sprint.name%> | Planning board</h1>
 <div class="col-md-6 col-sm-6 col-xs-12">
+<% @days_done ||= []%>
+<%
+        start = @sprint.begin_sprint.to_datetime
+        finish = @sprint.end_sprint.to_datetime
+        @arrayOfdays1 = (start..finish).map do |days|
+          days.strftime("%e").to_i
+        end
+      %>
   <% @sprint.tasks.each do |task|%>
     <div class="col-md-12 col-sm-12 col-xs-12">
       <%= task.name %>
-      <%= task.id %>
-      <%#= link_to 'Edit', edit_project_sprint_task_path(task.sprint_id, task.id)%>
+      <%task.id %>
+      <%
+        if defined?(task.done_time) && (task.done_time != nil) && (task.done_time != 0)
+          task.done_time.strftime("%e") 
+        end
+       %>
+      <%if task.project && task.id %>
+      <%= link_to 'Edit', edit_project_sprint_task_path(task.project_id,task.sprint_id, task.id)%>
       <%#= link_to 'Show', project_sprint_path(sprint.project_id , sprint.id)%>
       <%#= link_to 'Delete', project_sprint_task_path(:id=> task.id), :method => :delete %>
       <%#= link_to 'Edit', [:edit, @sprint.tasks, @task] %>
+      <%end%>
+      <%
+      if defined?(task.done_time) && (task.done_time != nil) && (task.done_time != 0)
+      @task_day_done = task.done_time.strftime("%e").to_i
+      @days_done.push(@task_day_done)
+      end 
+
+      
+      %>
+
     </div>
   <%end%>
+   <% @days_done %>
+      <% @arrayOfdays1 %>
+      <% 
+      
+      #(@days_done - @arrayOfdays1).empty? # => true
+      #@days_done.all?{|i| @arrayOfdays1.include? i }
+      b = Hash.new(0)
+
+      # iterate over the array, counting duplicate entries
+     
+
+      @days_done.each do |v|
+       b[v] += 1
+      end
+     
+      %>
+<% @arrayNewRepeat ||= []
+      b.each do |k, v|
+       @arrayNewRepeat.push([k,v])
+      end
+%>
+<%=@arrayNewRepeat %>
+<%
+@arrayNewEmpty ||= []
+
+#for i in 0..@arrayOfdays1.size
+ # @arrayNewEmpty.push(0)
+#end
+
+@arrayNewRepeat.each_with_index do |x, index|
+  x.each do |y|
+   @arrayNewEmpty.push(x)
+  end
+  
+  
+end
+@arrayOfdays1.each do |x|
+   @arrayNewEmpty.push(x)  
+end
+
+
+%>
+<%#= @arrayMerge= @arrayOfdays1.zip(@arrayNewEmpty) %>
+<%= @arrayOfdays1%>
+<%= @arrayNewEmpty%>
+
+
+
+
 </div>
 
 <div class="row">
@@ -64,59 +137,57 @@
 </div>
 </div>
 <script type="text/javascript">
-  
-$(document).ready(function(){
-  var stage_id;
-  var task_id;
+  $(document).ready(function(){
+    var stage_id;
+    var task_id;
+    var container_stage;
 
-  $('li').bind('dragstart', function(event) {
-    event.originalEvent.dataTransfer.setData("text/plain",  event.target.getAttribute('id'));
-    task_id = $(event.target).attr('id');
-  });
-
-  $('ul').bind('dragover', function(event) {
-    event.preventDefault();
-  });
-
-  $('ul').bind('dragenter', function(event) {
-    $(this).addClass("over");
-  });
-
-  $('ul').bind('dragleave drop', function(event) {
-    stage_id = $(event.target).attr('id');
-
-    $(this).removeClass("over");
-  });
-
-  $('li').bind('drop', function(event) {
-    return false;
-  });
-
-  $('ul').bind('drop', function(event) {
-    var listitem = event.originalEvent.dataTransfer.getData("text/plain");
-    event.target.appendChild(document.getElementById(listitem));
-    var container_stage = $(this).attr('id');
-    $(this).children().attr('container-stage',container_stage);
-    changeStage()
-    event.preventDefault();
-  });
-
-  function changeStage(){
-    data_send = { id: task_id,state_task:stage_id }
-    var url = "/projects/5/sprints/43/tasks#change_stage"
-    $.ajax({
-      method: 'put',
-      url: url,
-      dataType: 'html',
-      data: data_send,
-        success: function(data) {
-         //console.log(data)
-      }
+    $('li').bind('dragstart', function(event) {
+      event.originalEvent.dataTransfer.setData("text/plain",  event.target.getAttribute('id'));
+      task_id = $(event.target).attr('id');
     });
-  }
-});
 
+    $('ul').bind('dragover', function(event) {
+      event.preventDefault();
+    });
 
+    $('ul').bind('dragenter', function(event) {
+      $(this).addClass("over");
+    });
+
+    $('ul').bind('dragleave drop', function(event) {
+      stage_id = $(event.target).attr('id');
+
+      $(this).removeClass("over");
+    });
+
+    $('li').bind('drop', function(event) {
+      return false;
+    });
+
+    $('ul').bind('drop', function(event) {
+      var listitem = event.originalEvent.dataTransfer.getData("text/plain");
+      event.target.appendChild(document.getElementById(listitem));
+      container_stage = $(this).attr('id');
+      $(this).children().attr('container-stage',container_stage);
+      changeStage();
+      event.preventDefault();
+    });
+
+    function changeStage(){
+      data_send = { id: task_id,state_task:stage_id, container_stage: container_stage }
+      var url = "/projects/5/sprints/43/tasks#change_stage"
+      $.ajax({
+        method: 'put',
+        url: url,
+        dataType: 'html',
+        data: data_send,
+          success: function(data) {
+           //console.log(data)
+        }
+      });
+    }
+  });
 </script>
        
    
